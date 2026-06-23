@@ -100,22 +100,29 @@ class RestaurantRepository:
     @staticmethod
     def _row_to_restaurant(idx: object, row: pd.Series) -> Restaurant:
         """Map a single DataFrame row to a :class:`Restaurant` instance."""
+        def get_val(key):
+            val = row.get(key)
+            return None if pd.isna(val) else val
+            
+        cost = get_val("cost_for_two")
+        rating = get_val("rating")
+        
         return Restaurant(
             id=str(idx),
             name=str(row.get("name", "")),
-            url=row.get("url"),
+            url=get_val("url"),
             location=str(row.get("location", "")),
-            address=row.get("address"),
-            listed_in_city=row.get("listed_in_city"),
+            address=get_val("address"),
+            listed_in_city=get_val("listed_in_city"),
             cuisines=list(row.get("cuisines_list", [])) if hasattr(row.get("cuisines_list", []), "__iter__") else [],
-            rest_type=row.get("rest_type"),
-            listed_in_type=row.get("listed_in_type"),
-            dish_liked=row.get("dish_liked"),
-            cost_for_two=row.get("cost_for_two"),
-            budget_tier=row.get("budget_tier"),
-            rating=row.get("rating"),
-            votes=int(row.get("votes", 0)),
+            rest_type=get_val("rest_type"),
+            listed_in_type=get_val("listed_in_type"),
+            dish_liked=get_val("dish_liked"),
+            cost_for_two=int(cost) if cost is not None else None,
+            budget_tier=get_val("budget_tier"),
+            rating=float(rating) if rating is not None else None,
+            votes=int(row.get("votes", 0)) if not pd.isna(row.get("votes")) else 0,
             online_order=bool(row.get("online_order", False)),
             book_table=bool(row.get("book_table", False)),
-            phone=row.get("phone"),
+            phone=get_val("phone"),
         )
