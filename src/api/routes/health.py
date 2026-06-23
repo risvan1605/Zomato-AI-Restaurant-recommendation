@@ -24,9 +24,12 @@ async def get_health(request: Request):
     
     status = "healthy" if dataset_loaded else "degraded"
     
+    state_keys = list(request.app.state._state.keys()) if hasattr(request.app.state, '_state') else []
+    
     return HealthResponse(
         status=status,
         dataset_loaded=dataset_loaded,
         restaurant_count=restaurant_count,
         groq_api_configured=groq_api_configured,
+        error=f"Keys in app.state: {state_keys} | startup_error: {getattr(request.app.state, 'startup_error', 'MISSING')} | repo_type: {type(repo).__name__ if repo else 'None'}"
     )
