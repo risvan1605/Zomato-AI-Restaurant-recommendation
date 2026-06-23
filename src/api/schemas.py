@@ -65,3 +65,4 @@ class HealthResponse(BaseModel):
     dataset_loaded: bool
     restaurant_count: int
     groq_api_configured: bool
+    error: Optional[str] = None

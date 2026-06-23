@@ -48,6 +48,7 @@ async def lifespan(app: FastAPI):
         logger.error(f"Failed to load dataset during startup: {e}")
         # We don't crash the app here so the /health endpoint can report the degraded state
         app.state.repository = None
+        app.state.startup_error = str(e)
 
     yield
 
