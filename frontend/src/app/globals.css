@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-dim: #11112a;
+  --color-on-tertiary-fixed-variant: #653e00;
+  --color-secondary-fixed-dim: #d0bcff;
+  --color-on-secondary-fixed: #23005c;
+  --color-surface-tint: #c0c1ff;
+  --color-secondary: #d0bcff;
+  --color-primary-fixed: #e1e0ff;
+  --color-surface-container-highest: #32324d;
+  --color-on-primary-fixed: #07006c;
+  --color-tertiary-container: #ca8100;
+  --color-tertiary-fixed-dim: #ffb95f;
+  --color-tertiary-fixed: #ffddb8;
+  --color-error-container: #93000a;
+  --color-on-error: #690005;
+  --color-inverse-surface: #e2dfff;
+  --color-secondary-fixed: #e9ddff;
+  --color-on-secondary-container: #c4abff;
+  --color-primary-fixed-dim: #c0c1ff;
+  --color-on-surface: #e2dfff;
+  --color-surface-bright: #373752;
+  --color-surface-container-lowest: #0b0b24;
+  --color-background: #11112a;
+  --color-on-primary: #1000a9;
+  --color-on-primary-container: #0d0096;
+  --color-on-primary-fixed-variant: #2f2ebe;
+  --color-primary-container: #8083ff;
+  --color-inverse-primary: #494bd6;
+  --color-on-secondary: #3c0091;
+  --color-surface-container-high: #272742;
+  --color-surface-container-low: #191932;
+  --color-on-background: #e2dfff;
+  --color-primary: #c0c1ff;
+  --color-outline-variant: #464554;
+  --color-surface-container: #1d1d37;
+  --color-surface-variant: #32324d;
+  --color-on-surface-variant: #c7c4d7;
+  --color-surface: #11112a;
+  --color-on-secondary-fixed-variant: #5516be;
+  --color-secondary-container: #571bc1;
+  --color-tertiary: #ffb95f;
+  --color-on-tertiary-fixed: #2a1700;
+  --color-outline: #908fa0;
+  --color-on-tertiary: #472a00;
+  --color-on-tertiary-container: #3e2400;
+  --color-on-error-container: #ffdad6;
+  --color-error: #ffb4ab;
+  --color-inverse-on-surface: #2e2e48;
+
+  --spacing-base: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-gutter: 20px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+  --spacing-safe: env(safe-area-inset-bottom);
+
+  --font-headline-lg-mobile: Outfit, sans-serif;
+  --font-label-md: Inter, sans-serif;
+  --font-headline-lg: Outfit, sans-serif;
+  --font-body-md: Inter, sans-serif;
+  --font-label-sm: Inter, sans-serif;
+  --font-headline-md: Outfit, sans-serif;
+  --font-headline-sm: Outfit, sans-serif;
+  --font-headline-xl: Outfit, sans-serif;
+  --font-body-lg: Inter, sans-serif;
+
+  --text-headline-lg-mobile: 28px;
+  --text-headline-lg-mobile--line-height: 36px;
+  --text-label-md: 14px;
+  --text-label-md--line-height: 20px;
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 16px;
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-sm: 20px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-xl: 40px;
+  --text-headline-xl--line-height: 48px;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+
+  --animate-shimmer: shimmer 2s infinite;
+
+  @keyframes shimmer {
+    100% { transform: translateX(100%); }
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface min-h-screen relative overflow-x-hidden;
+  }
+}
+
+@layer components {
+  /* Celestial Background Gradient */
+  .bg-celestial {
+    background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, rgba(17, 17, 42, 0) 50%),
+                radial-gradient(circle at 100% 50%, rgba(139, 92, 246, 0.1) 0%, rgba(17, 17, 42, 0) 50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 40px 60px -20px rgba(15, 12, 41, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .gradient-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    transition: all 0.3s ease;
+  }
+
+  .gradient-btn:hover {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .badge-glass {
+    background: rgba(192, 193, 255, 0.15);
+    box-shadow: 0 0 10px rgba(192, 193, 255, 0.1);
+  }
+
+  .rank-badge-gold {
+    background: linear-gradient(135deg, #ca8100 0%, #ffddb8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(202, 129, 0, 0.3);
+  }
+  
+  .rank-badge-silver {
+    background: linear-gradient(135deg, #c7c4d7 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(199, 196, 215, 0.3);
+  }
+
+  .rank-badge-bronze {
+    background: linear-gradient(135deg, #653e00 0%, #ffb95f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 10px rgba(101, 62, 0, 0.3);
+  }
+
+  .ai-box {
+    background: rgba(192, 193, 255, 0.05);
+    border-left: 3px solid #8083ff;
+  }
+  
+  /* Utilities for scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
