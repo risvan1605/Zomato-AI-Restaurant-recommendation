@@ -106,4 +106,6 @@ async def recommend(
         raise HTTPException(status_code=503, detail="Dataset is currently unavailable.")
     except Exception as e:
         logger.error(f"Unexpected error in recommendation pipeline: {e}")
-        raise HTTPException(status_code=500, detail="An unexpected internal error occurred.")
+        import traceback
+        tb = traceback.format_exc()
+        raise HTTPException(status_code=500, detail=f"Internal error: {e}\n{tb}")
