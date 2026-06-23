@@ -45,9 +45,7 @@ class LLMClient:
         self._temperature = temperature if temperature is not None else settings.groq_temperature
         self._max_retries = max_retries
 
-        # ── API key validation ──────────────────────────────────────────
-        self._validate_api_key()
-
+        # Note: API key validation is deferred to complete_json so fallback ranking works
         self._client = Groq(api_key=self._api_key)
 
     def _validate_api_key(self) -> None:
@@ -86,6 +84,9 @@ class LLMClient:
             RuntimeError: If all retries are exhausted.
             ConfigurationError: If the API key is invalid.
         """
+        # ── API key validation ──────────────────────────────────────────
+        self._validate_api_key()
+
         # ── Context window guard ────────────────────────────────────────
         total_prompt = system_prompt + user_prompt
         estimated_tokens = len(total_prompt) // 4
