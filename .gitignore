@@ -2,8 +2,8 @@
 .env
 
 # Dataset cache
-data/
-cache/
+/data/
+/cache/
 
 # Python
 __pycache__/
