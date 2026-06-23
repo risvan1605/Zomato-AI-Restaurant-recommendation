@@ -1,0 +1,20 @@
+# Environment secrets
+.env
+
+# Dataset cache
+data/
+cache/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store

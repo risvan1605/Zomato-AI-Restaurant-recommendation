@@ -1,0 +1,42 @@
+flowchart TB
+    subgraph Orchestration["Orchestration"]
+        RS[RecommendationService]
+    end
+
+    subgraph Validation["Validation"]
+        PV[PreferenceValidator]
+        RV[ResponseValidator]
+    end
+
+    subgraph DataComponents["Data Components"]
+        DL[DatasetLoader]
+        PP[Preprocessor]
+        RR[RestaurantRepository]
+        FE[FilterEngine]
+        CM[CandidateMapper]
+    end
+
+    subgraph LLMComponents["LLM Components"]
+        PB[PromptBuilder]
+        LC[LLMClient]
+        RP[ResponseParser]
+        FR[FallbackRanker]
+    end
+
+    RS --> PV
+    RS --> FE
+    RS --> PB
+    RS --> LC
+    RS --> RP
+    RS --> RV
+    RS --> FR
+
+    DL --> PP
+    PP --> RR
+    RR --> FE
+    FE --> CM
+    CM --> PB
+    PB --> LC
+    LC --> RP
+    RP --> RV
+    FE --> FR

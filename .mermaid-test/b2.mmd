@@ -1,0 +1,17 @@
+flowchart TB
+    user(["End User"])
+
+    subgraph app["Recommendation Application"]
+        ui["Web/CLI UI<br/>Streamlit, Gradio, or FastAPI"]
+        core["Recommendation Core<br/>Orchestrates filtering, prompting, and response validation"]
+        data["Data Store - In-Memory<br/>Preprocessed restaurant catalog loaded at startup"]
+    end
+
+    hf[["Hugging Face Hub"]]
+    llm[["LLM Provider API"]]
+
+    user -->|"Uses"| ui
+    ui -->|"Calls RecommendationService"| core
+    core -->|"Queries via FilterEngine and Repository"| data
+    core -->|"HTTP API"| llm
+    data -->|"Initial dataset load"| hf

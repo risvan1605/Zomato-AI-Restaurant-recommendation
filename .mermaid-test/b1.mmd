@@ -1,0 +1,9 @@
+flowchart TB
+    user(["End User<br/>Searches by location, budget, cuisine, and preferences"])
+    app["AI Restaurant Recommendation System<br/>Filters Zomato dataset and uses LLM to rank and explain choices"]
+    hf[["Hugging Face Hub<br/>Hosts Zomato restaurant dataset ~51K records"]]
+    llm[["LLM Provider API<br/>OpenAI, Anthropic, Gemini, or local model via Ollama"]]
+
+    user -->|"Submits preferences, views recommendations"| app
+    app -->|"Downloads dataset on startup or first run"| hf
+    app -->|"Sends prompt with filtered candidates, receives ranked results"| llm

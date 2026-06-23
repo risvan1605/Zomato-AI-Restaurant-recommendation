@@ -1,0 +1,46 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant UI as Presentation Layer
+    participant Svc as RecommendationService
+    participant Val as PreferenceValidator
+    participant FE as FilterEngine
+    participant PB as PromptBuilder
+    participant LLM as LLMClient
+    participant RP as ResponseParser
+    participant RV as ResponseValidator
+    participant FB as FallbackRanker
+
+    User->>UI: Submit preferences
+    UI->>Svc: recommend(preferences)
+    Svc->>Val: validate(preferences)
+    alt invalid input
+        Val-->>Svc: ValidationError
+        Svc-->>UI: Error response
+        UI-->>User: Show validation message
+    else valid
+        Val-->>Svc: UserPreferences
+        Svc->>FE: filter(preferences)
+        alt no matches
+            FE-->>Svc: empty list
+            Svc-->>UI: EmptyStateResponse
+            UI-->>User: Suggest relaxing filters
+        else has candidates
+            FE-->>Svc: candidate list
+            Svc->>PB: build(preferences, candidates)
+            PB-->>Svc: prompt
+            Svc->>LLM: complete(prompt)
+            alt LLM success
+                LLM-->>Svc: raw response
+                Svc->>RP: parse(raw)
+                RP-->>Svc: parsed recommendations
+                Svc->>RV: validate(parsed, candidates)
+                RV-->>Svc: validated recommendations
+            else LLM failure
+                Svc->>FB: rank(candidates)
+                FB-->>Svc: fallback recommendations
+            end
+            Svc-->>UI: RecommendationResponse
+            UI-->>User: Render recommendation cards
+        end
+    end

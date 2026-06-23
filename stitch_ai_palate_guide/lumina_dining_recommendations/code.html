@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Dining - AI Recommendations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Outfit:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-dim": "#11112a",
+                "on-tertiary-fixed-variant": "#653e00",
+                "secondary-fixed-dim": "#d0bcff",
+                "on-secondary-fixed": "#23005c",
+                "surface-tint": "#c0c1ff",
+                "secondary": "#d0bcff",
+                "primary-fixed": "#e1e0ff",
+                "surface-container-highest": "#32324d",
+                "on-primary-fixed": "#07006c",
+                "tertiary-container": "#ca8100",
+                "tertiary-fixed-dim": "#ffb95f",
+                "tertiary-fixed": "#ffddb8",
+                "error-container": "#93000a",
+                "on-error": "#690005",
+                "inverse-surface": "#e2dfff",
+                "secondary-fixed": "#e9ddff",
+                "on-secondary-container": "#c4abff",
+                "primary-fixed-dim": "#c0c1ff",
+                "on-surface": "#e2dfff",
+                "surface-bright": "#373752",
+                "surface-container-lowest": "#0b0b24",
+                "background": "#11112a",
+                "on-primary": "#1000a9",
+                "on-primary-container": "#0d0096",
+                "on-primary-fixed-variant": "#2f2ebe",
+                "primary-container": "#8083ff",
+                "inverse-primary": "#494bd6",
+                "on-secondary": "#3c0091",
+                "surface-container-high": "#272742",
+                "surface-container-low": "#191932",
+                "on-background": "#e2dfff",
+                "primary": "#c0c1ff",
+                "outline-variant": "#464554",
+                "surface-container": "#1d1d37",
+                "surface-variant": "#32324d",
+                "on-surface-variant": "#c7c4d7",
+                "surface": "#11112a",
+                "on-secondary-fixed-variant": "#5516be",
+                "secondary-container": "#571bc1",
+                "tertiary": "#ffb95f",
+                "on-tertiary-fixed": "#2a1700",
+                "outline": "#908fa0",
+                "on-tertiary": "#472a00",
+                "on-tertiary-container": "#3e2400",
+                "on-error-container": "#ffdad6",
+                "error": "#ffb4ab",
+                "inverse-on-surface": "#2e2e48"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "xs": "8px",
+                "lg": "40px",
+                "gutter": "20px",
+                "container-max": "1200px",
+                "base": "4px",
+                "xl": "64px",
+                "md": "24px",
+                "sm": "16px"
+        },
+        "fontFamily": {
+                "headline-lg-mobile": [
+                        "Outfit"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Outfit"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Outfit"
+                ],
+                "headline-xl": [
+                        "Outfit"
+                ],
+                "body-lg": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "headline-lg-mobile": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-xl": [
+                        "40px",
+                        {
+                                "lineHeight": "48px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+  body {
+    background-color: #11112a;
+    color: #e2dfff;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  /* Celestial Background Gradient */
+  .bg-celestial {
+    background: radial-gradient(circle at 50% -20%, rgba(99, 102, 241, 0.15) 0%, rgba(17, 17, 42, 0) 50%),
+                radial-gradient(circle at 100% 50%, rgba(139, 92, 246, 0.1) 0%, rgba(17, 17, 42, 0) 50%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 40px 60px -20px rgba(15, 12, 41, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .gradient-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    transition: all 0.3s ease;
+  }
+
+  .gradient-btn:hover {
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .badge-glass {
+    background: rgba(192, 193, 255, 0.15);
+    box-shadow: 0 0 10px rgba(192, 193, 255, 0.1);
+  }
+
+  .rank-badge-gold {
+    background: linear-gradient(135deg, #ca8100 0%, #ffddb8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(202, 129, 0, 0.3);
+  }
+  
+  .rank-badge-silver {
+    background: linear-gradient(135deg, #c7c4d7 0%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(199, 196, 215, 0.3);
+  }
+
+  .rank-badge-bronze {
+    background: linear-gradient(135deg, #653e00 0%, #ffb95f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(101, 62, 0, 0.3);
+  }
+
+  .ai-box {
+    background: rgba(192, 193, 255, 0.05);
+    border-left: 3px solid #8083ff;
+  }
+</style>
+</head>
+<body class="antialiased">
+<div class="bg-celestial"></div>
+<!-- TopNavBar (Web & Mobile) -->
+<nav class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl border-b border-white/10 shadow-[0_20px_40px_rgba(15,12,41,0.4)]">
+<div class="flex justify-between items-center px-md py-xs w-full max-w-container-max mx-auto h-[72px]">
+<div class="flex items-center gap-sm">
+<button class="md:hidden p-2 text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">Lumina Dining</span>
+</div>
+<!-- Desktop Nav Links -->
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Discover</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Collections</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">AI Concierge</a>
+</div>
+<div class="flex items-center gap-sm">
+<button aria-label="Search" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</button>
+<button aria-label="Notifications" class="p-2 text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform hidden sm:block">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden border border-white/10 ml-2">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A highly detailed close-up portrait of a young professional woman with warm ambient lighting, set against a dark glassmorphic background with subtle neon violet accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXNl7w374_XZMXr0dBEmH3_t4X_ng9Id82cz3YmUJ5UR1p_dFLlhTRQkSC21dgAfqmqj2eNpWRlQAupvf1R3QaVjag4s2zRmCVyv6n6EBOv9L_QRVttVMWILD2MVIcV52x1eXZLHt843_1zoDjVGQ9YqZ49V6zRMvNGBQcI0vSoms8Xhk9EXdYkDu9xKVaqXxd0_SyzRjLzsXyibwHUb7Y-jTMBtcWgH72iFPVjVKdzV8KWfu1P99aFSpT7eBTuqSOB-oW_kM46tw"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- SideNavBar (Web Only) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 z-40 bg-surface-container/40 backdrop-blur-2xl border-r border-white/10 shadow-[40px_0_60px_rgba(15,12,41,0.3)] py-xl px-sm pt-[104px]">
+<div class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl active:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">explore</span>
+<span class="font-label-md text-label-md">Discover</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl active:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+<span class="font-label-md text-label-md">Collections</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl active:translate-x-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+<span class="font-label-md text-label-md">Reservations</span>
+</a>
+<a class="flex items-center gap-3 bg-primary/15 text-primary rounded-xl px-4 py-3 border-l-4 border-primary active:translate-x-1 transition-transform shadow-[0_0_15px_rgba(192,193,255,0.1)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-label-md text-label-md font-bold">AI Concierge</span>
+</a>
+</div>
+<div class="mt-auto flex flex-col gap-2 border-t border-white/10 pt-4">
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<div class="mt-4 p-4 rounded-xl bg-gradient-to-br from-surface-container-high to-surface-container border border-white/5">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm">auto_awesome</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-primary">Lumina AI</div>
+<div class="text-[10px] text-on-surface-variant">Curating your palate</div>
+</div>
+</div>
+<button class="w-full py-2 rounded-lg gradient-btn font-label-sm text-label-sm text-white">Premium Access</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-[104px] pb-xl px-md md:pl-[280px] max-w-container-max mx-auto min-h-screen">
+<!-- Page Header -->
+<header class="mb-lg">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface hidden md:block">AI Curated For You</h1>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface md:hidden">AI Curated For You</h1>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Based on your recent interest in intimate atmospheres and contemporary Asian fusion, Lumina AI has curated these top selections.</p>
+</header>
+<!-- Results Grid (Bento/Asymmetric style) -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Top Recommendation (Spans more columns on desktop) -->
+<article class="glass-card rounded-xl md:col-span-12 lg:col-span-8 flex flex-col md:flex-row group">
+<div class="relative h-64 md:h-auto md:w-2/5 overflow-hidden">
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-700" data-alt="A moody, high-end fine dining restaurant interior featuring low lighting, dark wood textures, and subtle violet neon under-lighting. A perfectly plated contemporary Asian fusion dish sits on a dark slate table." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1bPr9vjAZFX_Bnk7VtISWdDo3ZVChLlQdM5gn75-U2So_r7qS7d7OOrX7_eIDmLzjxc1izIufDZ40lUyew23xjSNt2j_S-WS5T_BtT9XNKDRTqnGSIliaG5YW2L8OIfqXFmL6O7dgfLBQ96dy_Ti4u2dXOj5nALvpoJLz1rOVPvcJ9ZF1PxJTs9zTxIuHYa7BpSlzWmnnExyPJffWEm2fiyj__pPAcEZuxAfAk05brZDWkqK3Jve7d2E91aXHWS1uFmQ4iZxADnY')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 via-surface-dim/20 to-transparent md:bg-gradient-to-r"></div>
+<div class="absolute top-4 left-4 flex items-center justify-center w-12 h-12 rounded-full bg-surface-dim/80 backdrop-blur-md border border-white/20 shadow-lg">
+<span class="font-headline-lg text-headline-lg rank-badge-gold font-bold">#1</span>
+</div>
+<button class="absolute top-4 right-4 p-2 rounded-full bg-surface-dim/50 backdrop-blur-md text-on-surface hover:text-error transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<div class="p-sm md:p-md flex-1 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">Kiyomi Nocturne</h2>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<span class="px-3 py-1 rounded-full badge-glass font-label-sm text-label-sm text-primary">Asian Fusion</span>
+<span class="px-3 py-1 rounded-full badge-glass font-label-sm text-label-sm text-primary">Intimate</span>
+<span class="px-3 py-1 rounded-full badge-glass font-label-sm text-label-sm text-on-surface-variant">₹₹₹₹</span>
+</div>
+<div class="flex items-center gap-4 mb-4 font-label-md text-label-md text-on-surface-variant">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-on-surface">4.9</span>
+<span class="text-xs ml-1">(342)</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Downtown District</span>
+</div>
+</div>
+<div class="ai-box p-3 rounded-r-lg mb-6">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-sm mt-0.5" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<p class="font-body-md text-body-md text-on-surface-variant italic text-sm">
+                  "Perfectly aligns with your preference for dark, moody aesthetics and your recent high ratings for omakase experiences. The ambient lighting here matches your 'date night' saved profile."
+                </p>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" title="Menu">menu_book</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" title="Directions">directions</span>
+</div>
+<button class="px-6 py-2 rounded-lg gradient-btn font-label-md text-label-md text-white font-semibold flex items-center gap-2">
+              Book Table
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Recommendation #2 -->
+<article class="glass-card rounded-xl md:col-span-6 lg:col-span-4 flex flex-col group">
+<div class="relative h-48 overflow-hidden">
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-700" data-alt="An elegant, dimly lit cocktail bar and restaurant with plush velvet seating, dark marble tables, and a glowing back-bar. A sophisticated cocktail sits in the foreground." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA2MPqxNttFanSinb-QQtmeoAEpohimRx_EiEAtjbrxT4uQaA7UcF2QiZnzGcxLFhr56ZUYj1j1hmhuEfaxtsggYfIk7896XepnTpJ4g0iDO-o0XvW0op50OBhCb8YcPhzAd4pYQOKezHJxol_KqeSVUg-khkkppOf_-giWqjd_U8VDk_RLQWRkzm5tg2j-Zo_Zetkl9Ev1K8MwxfnqtwPC4o47mZ9AlBlevOSeAlRuDcryXMcq0iLCegrPhk9tpJq_iNlbBIAot5M')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 to-transparent"></div>
+<div class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-surface-dim/80 backdrop-blur-md border border-white/20 shadow-lg">
+<span class="font-headline-md text-headline-md rank-badge-silver font-bold">#2</span>
+</div>
+</div>
+<div class="p-sm flex-1 flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight mb-2">Velvet &amp; Vine</h2>
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-2 py-1 rounded-full badge-glass font-label-sm text-label-sm text-primary">Tapas</span>
+<span class="px-2 py-1 rounded-full badge-glass font-label-sm text-label-sm text-on-surface-variant">₹₹₹</span>
+</div>
+<div class="flex items-center gap-4 mb-4 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-on-surface">4.7</span>
+<span class="text-xs ml-1">(890)</span>
+</div>
+</div>
+<div class="ai-box p-3 rounded-r-lg mb-4 mt-auto">
+<p class="font-body-md text-body-md text-on-surface-variant italic text-xs">
+                "Highly rated for its extensive curated wine list, matching your past searches for sommelier-led pairings."
+             </p>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright transition-colors font-label-md text-label-md text-on-surface border border-white/10">
+            View Details
+          </button>
+</div>
+</article>
+<!-- Recommendation #3 -->
+<article class="glass-card rounded-xl md:col-span-6 lg:col-span-4 flex flex-col group">
+<div class="relative h-48 overflow-hidden">
+<div class="bg-cover bg-center w-full h-full transform group-hover:scale-105 transition-transform duration-700" data-alt="A modern, high-altitude restaurant dining room at night, featuring floor-to-ceiling glass windows overlooking a glittering city skyline. Dark interior with subtle glowing accents." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuATcMq7BZv0OjJFeEzHbX2XzdmOU2pvhUgIGq3Oa0t2d3i6qcyDEbbo7enGA828CR-t9-9lRHs1pyP1CEXDkwI8v64puTDwOdxMx_qRd154GdIJ6scvPkjsrvTAU6m0Df1rMaehfCapZwGy3hTY3UBTAbNw1m92AdhluDCv0P6ZHtCdcUisV_WuzBW7lBVXP0fmQhi_KUB4gSrqKRGAET0F31431HB71LcI5Vny_St9zKcDEnXb8EzshQf0905J2p0nLVf_SqSZBio')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim/90 to-transparent"></div>
+<div class="absolute top-4 left-4 flex items-center justify-center w-10 h-10 rounded-full bg-surface-dim/80 backdrop-blur-md border border-white/20 shadow-lg">
+<span class="font-headline-md text-headline-md rank-badge-bronze font-bold">#3</span>
+</div>
+</div>
+<div class="p-sm flex-1 flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight mb-2">Altitude</h2>
+<div class="flex flex-wrap gap-2 mb-3">
+<span class="px-2 py-1 rounded-full badge-glass font-label-sm text-label-sm text-primary">Modern European</span>
+<span class="px-2 py-1 rounded-full badge-glass font-label-sm text-label-sm text-on-surface-variant">₹₹₹₹</span>
+</div>
+<div class="flex items-center gap-4 mb-4 font-label-sm text-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-bold text-on-surface">4.8</span>
+<span class="text-xs ml-1">(1.2k)</span>
+</div>
+</div>
+<div class="ai-box p-3 rounded-r-lg mb-4 mt-auto">
+<p class="font-body-md text-body-md text-on-surface-variant italic text-xs">
+                "Selected for its breathtaking panoramic views, ideal for the 'celebration' tag you frequently use."
+             </p>
+</div>
+<button class="w-full py-2 rounded-lg bg-surface-container-highest hover:bg-surface-bright transition-colors font-label-md text-label-md text-on-surface border border-white/10">
+            View Details
+          </button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-dim/90 backdrop-blur-xl border-t border-white/5 shadow-[0_-10px_40px_rgba(15,12,41,0.5)]">
+<div class="flex justify-around items-center h-16 pb-safe">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 0;">explore</span>
+<span class="font-label-sm text-[10px]">Discover</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+<span class="font-label-sm text-[10px]">Collections</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary p-2" href="#">
+<div class="relative">
+<div class="absolute inset-0 bg-primary/20 blur-md rounded-full"></div>
+<span class="material-symbols-outlined text-xl relative z-10" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<span class="font-label-sm text-[10px] font-bold">AI Concierge</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant p-2" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+<span class="font-label-sm text-[10px]">Bookings</span>
+</a>
+</div>
+</nav>
+</body></html>

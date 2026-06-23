@@ -1,0 +1,14 @@
+flowchart TD
+    A[Request] --> B{Validation OK?}
+    B -->|No| C[Return validation errors]
+    B -->|Yes| D{Filters match?}
+    D -->|No| E["Empty state + suggestions"]
+    D -->|Yes| F{"LLM call OK?"}
+    F -->|Yes| G{Parse OK?}
+    F -->|No| H[FallbackRanker]
+    G -->|Yes| I{Validate names?}
+    G -->|No| H
+    I -->|All valid| J[Return LLM results]
+    I -->|Partial| K["Return valid subset + fallback fill"]
+    I -->|None valid| H
+    H --> L[Return fallback results with notice]

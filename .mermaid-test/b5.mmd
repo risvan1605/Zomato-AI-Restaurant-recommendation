@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Validating: User submits form
+    Validating --> Idle: Validation errors
+    Validating --> Filtering: Valid preferences
+    Filtering --> EmptyState: Zero candidates
+    Filtering --> Loading: Has candidates
+    Loading --> Success: LLM + parse OK
+    Loading --> Fallback: LLM error
+    Success --> Idle: User changes preferences
+    Fallback --> Idle: User changes preferences
+    EmptyState --> Idle: User changes preferences

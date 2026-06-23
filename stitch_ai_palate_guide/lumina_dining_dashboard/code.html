@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Dining - AI Recommendations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "surface-dim": "#11112a",
+                            "on-tertiary-fixed-variant": "#653e00",
+                            "secondary-fixed-dim": "#d0bcff",
+                            "on-secondary-fixed": "#23005c",
+                            "surface-tint": "#c0c1ff",
+                            "secondary": "#d0bcff",
+                            "primary-fixed": "#e1e0ff",
+                            "surface-container-highest": "#32324d",
+                            "on-primary-fixed": "#07006c",
+                            "tertiary-container": "#ca8100",
+                            "tertiary-fixed-dim": "#ffb95f",
+                            "tertiary-fixed": "#ffddb8",
+                            "error-container": "#93000a",
+                            "on-error": "#690005",
+                            "inverse-surface": "#e2dfff",
+                            "secondary-fixed": "#e9ddff",
+                            "on-secondary-container": "#c4abff",
+                            "primary-fixed-dim": "#c0c1ff",
+                            "on-surface": "#e2dfff",
+                            "surface-bright": "#373752",
+                            "surface-container-lowest": "#0b0b24",
+                            "background": "#11112a",
+                            "on-primary": "#1000a9",
+                            "on-primary-container": "#0d0096",
+                            "on-primary-fixed-variant": "#2f2ebe",
+                            "primary-container": "#8083ff",
+                            "inverse-primary": "#494bd6",
+                            "on-secondary": "#3c0091",
+                            "surface-container-high": "#272742",
+                            "surface-container-low": "#191932",
+                            "on-background": "#e2dfff",
+                            "primary": "#c0c1ff",
+                            "outline-variant": "#464554",
+                            "surface-container": "#1d1d37",
+                            "surface-variant": "#32324d",
+                            "on-surface-variant": "#c7c4d7",
+                            "surface": "#11112a",
+                            "on-secondary-fixed-variant": "#5516be",
+                            "secondary-container": "#571bc1",
+                            "tertiary": "#ffb95f",
+                            "on-tertiary-fixed": "#2a1700",
+                            "outline": "#908fa0",
+                            "on-tertiary": "#472a00",
+                            "on-tertiary-container": "#3e2400",
+                            "on-error-container": "#ffdad6",
+                            "error": "#ffb4ab",
+                            "inverse-on-surface": "#2e2e48"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "xs": "8px",
+                            "lg": "40px",
+                            "gutter": "20px",
+                            "container-max": "1200px",
+                            "base": "4px",
+                            "xl": "64px",
+                            "md": "24px",
+                            "sm": "16px"
+                    },
+                    "fontFamily": {
+                            "headline-lg-mobile": ["Outfit"],
+                            "label-md": ["Inter"],
+                            "headline-lg": ["Outfit"],
+                            "body-md": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "headline-md": ["Outfit"],
+                            "headline-xl": ["Outfit"],
+                            "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                            "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                            "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-surface-dim text-on-surface font-body-md min-h-screen flex overflow-hidden">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
+<!-- Soft gradient orbs -->
+<div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] bg-primary/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-secondary-container/20 rounded-full blur-[150px]"></div>
+<!-- Grid pattern overlay -->
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdHRlcm4gaWQ9InNtYWxsR3JpZCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDEwIDAgTCAwIDAgMCAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvcGF0dGVybj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9InVybCgjc21hbGxHcmlkKSIvPjxwYXRoIGQ9Ik0gNDAgMCBMIDAgMCAwIDQwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')] opacity-30"></div>
+</div>
+<!-- SideNavBar (Shared Component) -->
+<nav class="fixed left-0 top-0 h-full w-64 z-40 bg-surface-container/40 backdrop-blur-2xl border-r border-white/10 shadow-[40px_0_60px_rgba(15,12,41,0.3)] flex flex-col py-xl px-sm">
+<!-- Brand / Header -->
+<div class="mb-lg px-xs">
+<h1 class="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+                Lumina AI
+            </h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Curating your palate</p>
+</div>
+<!-- Navigation Tabs -->
+<ul class="flex-1 space-y-2">
+<li>
+<a class="flex items-center gap-3 bg-primary/15 text-primary rounded-xl px-4 py-3 border-l-4 border-primary font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+                    Discover
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl border-l-4 border-transparent font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                    Collections
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl border-l-4 border-transparent font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+                    Reservations
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-3 hover:bg-white/5 transition-all duration-300 rounded-xl border-l-4 border-transparent font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+                    AI Concierge
+                </a>
+</li>
+</ul>
+<!-- Footer / CTA -->
+<div class="mt-auto pt-lg border-t border-white/10">
+<button class="w-full bg-gradient-to-r from-primary to-secondary-container text-white font-label-md text-label-md rounded-lg py-2 px-4 shadow-[0_0_15px_rgba(192,193,255,0.3)] hover:shadow-[0_0_25px_rgba(192,193,255,0.5)] transition-all duration-300 mb-4 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+                Premium Access
+            </button>
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:bg-white/5 transition-all duration-300 rounded-lg font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="settings">settings</span>
+                        Settings
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-on-surface-variant px-4 py-2 hover:bg-white/5 transition-all duration-300 rounded-lg font-label-sm text-label-sm" href="#">
+<span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+                        Support
+                    </a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex h-screen overflow-hidden relative">
+<!-- TopNavBar (Shared Component - Integrated subtly) -->
+<div class="fixed top-0 w-[calc(100%-16rem)] z-50 bg-surface-dim/80 backdrop-blur-xl border-b border-white/10 shadow-[0_20px_40px_rgba(15,12,41,0.4)] px-md py-xs flex justify-between items-center transition-transform active:scale-95">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full bg-surface-container/50 border border-white/10 rounded-full py-1.5 pl-10 pr-4 text-on-surface focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all font-body-md text-body-md placeholder:text-on-surface-variant/50" placeholder="Search destinations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container border border-white/20 overflow-hidden ml-2 cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A macro shot of an abstract, iridescent liquid drop suspended in mid-air against a deep space background, glowing softly with indigo and violet hues, reflecting a minimalist gallery setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUS6Fsut1NhdsZkDqppEkx_G25_LVnkt8JmdntHQarH1TiIN_uBo0M7wXzt5575HPKyU3xgH7VD-B_8U41dI6xbHwGA0b_NtAcxGjOy-Cj7BuLPX72xaL4u0ZEheBP_CRoXboLNLON6SP6Br78VJdV3yjw-BNKZ_C7j1r8yIB85qhRfE1QZGv83Bd0xySnNutFP3lTNNlFKgIRUGUQipfVnIQBs3oIynqx15L2VE0sGyxossIQC4XDYRx_7pKob9WNIUi2Q_SrVcc"/>
+</div>
+</div>
+</div>
+<!-- Dashboard Split Layout -->
+<div class="w-full flex h-full pt-[64px]"> <!-- Offset for TopNavBar -->
+<!-- Left Panel: Your Preferences (30%) -->
+<section class="w-[30%] h-full overflow-y-auto bg-surface-container-low/30 backdrop-blur-md border-r border-white/5 p-lg custom-scrollbar">
+<div class="flex items-center gap-2 mb-xl">
+<span class="material-symbols-outlined text-primary text-[28px]">manage_search</span>
+<h2 class="font-headline-md text-headline-md font-semibold tracking-tight text-on-surface">Your Preferences</h2>
+</div>
+<div class="space-y-xl">
+<!-- Location -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px]">location_on</span>
+<select class="w-full bg-surface-container/40 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-on-surface appearance-none focus:outline-none focus:border-primary focus:shadow-[0_0_10px_rgba(192,193,255,0.2)] transition-all font-body-md text-body-md">
+<option value="bangalore">Bangalore, India</option>
+<option value="mumbai">Mumbai, India</option>
+<option value="delhi">Delhi, India</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Budget -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block">Budget Range</label>
+<div class="flex bg-surface-container/40 border border-white/10 rounded-lg p-1">
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md bg-white/10 text-on-surface shadow-sm transition-all">₹ Low</button>
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md text-on-surface-variant hover:text-on-surface transition-all">₹₹ Med</button>
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md text-on-surface-variant hover:text-on-surface transition-all">₹₹₹ High</button>
+</div>
+</div>
+<!-- Rating Slider -->
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface-variant">Minimum Rating</label>
+<span class="font-label-md text-label-md text-primary font-medium flex items-center gap-1">4.0 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span></span>
+</div>
+<input class="w-full accent-primary h-2 bg-surface-container/50 rounded-full appearance-none cursor-pointer" max="5" min="0" step="0.5" type="range" value="4.0"/>
+</div>
+<!-- Cuisine Dropdown -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block">Cuisine Preference</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px]">restaurant</span>
+<select class="w-full bg-surface-container/40 border border-white/10 rounded-lg py-3 pl-10 pr-4 text-on-surface appearance-none focus:outline-none focus:border-primary focus:shadow-[0_0_10px_rgba(192,193,255,0.2)] transition-all font-body-md text-body-md">
+<option value="italian">Italian</option>
+<option value="japanese">Japanese</option>
+<option value="indian">Indian</option>
+<option value="fusion">Fusion</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant/70 text-[20px] pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Toggles -->
+<div class="space-y-4 pt-sm">
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">local_mall</span> Online Order
+                            </span>
+<div class="relative">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</div>
+</label>
+<label class="flex items-center justify-between cursor-pointer group">
+<span class="font-label-md text-label-md text-on-surface-variant group-hover:text-on-surface transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">event_seat</span> Book Table
+                            </span>
+<div class="relative">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high rounded-full peer peer-checked:after:translate-x-full peer-checked:bg-primary after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</div>
+</label>
+</div>
+<!-- Additional Preferences -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant block">Additional Notes</label>
+<textarea class="w-full bg-surface-container/40 border border-white/10 rounded-lg p-3 text-on-surface focus:outline-none focus:border-primary focus:shadow-[0_0_10px_rgba(192,193,255,0.2)] transition-all font-body-md text-body-md resize-none" placeholder="e.g., Quiet ambiance, vegan options available..." rows="3"></textarea>
+</div>
+<!-- Submit Button -->
+<button class="w-full mt-lg bg-gradient-to-r from-primary to-secondary-container text-white font-headline-lg-mobile text-headline-lg-mobile !text-[18px] py-4 rounded-xl shadow-[0_0_20px_rgba(192,193,255,0.2)] hover:shadow-[0_0_30px_rgba(192,193,255,0.4)] transition-all duration-300 flex justify-center items-center gap-2 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">auto_awesome</span>
+                        Get Recommendations
+                    </button>
+</div>
+</section>
+<!-- Right Panel: Results (70%) -->
+<section class="w-[70%] h-full p-xl flex flex-col overflow-hidden relative">
+<!-- Active Filters Bar -->
+<div class="flex items-center gap-sm mb-lg overflow-x-auto pb-2 custom-scrollbar">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider shrink-0">Filtering by:</span>
+<div class="flex gap-2">
+<span class="bg-primary/15 text-primary border border-primary/20 px-3 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-1 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(192,193,255,0.1)]">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Bangalore
+                            <button class="ml-1 hover:text-white transition-colors"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="bg-secondary-container/20 text-secondary border border-secondary-container/30 px-3 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-1 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(87,27,193,0.1)]">
+<span class="material-symbols-outlined text-[14px]">restaurant</span> Italian
+                            <button class="ml-1 hover:text-white transition-colors"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+<span class="bg-tertiary-container/20 text-tertiary border border-tertiary-container/30 px-3 py-1.5 rounded-full font-label-md text-label-md flex items-center gap-1 shrink-0 backdrop-blur-sm shadow-[0_0_10px_rgba(202,129,0,0.1)]">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span> 4.0+
+                            <button class="ml-1 hover:text-white transition-colors"><span class="material-symbols-outlined text-[14px]">close</span></button>
+</span>
+</div>
+<button class="ml-auto text-on-surface-variant hover:text-primary font-label-sm text-label-sm uppercase tracking-wider transition-colors">Clear All</button>
+</div>
+<!-- AI Insights Banner -->
+<div class="mb-xl relative overflow-hidden rounded-2xl bg-surface-container-high/40 backdrop-blur-xl border border-white/10 p-md shadow-[0_20px_40px_rgba(15,12,41,0.5)]">
+<!-- Subtle border glow effect -->
+<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+<div class="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-secondary/30 to-transparent"></div>
+<div class="flex items-start gap-md relative z-10">
+<div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center shrink-0 border border-primary/30 shadow-[0_0_15px_rgba(192,193,255,0.2)]">
+<span class="material-symbols-outlined text-primary text-[24px]">psychology</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1 flex items-center gap-2">AI Insights <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span></h3>
+<p class="font-body-lg text-body-lg text-on-surface italic text-on-surface/90">"Based on your preference for highly-rated Italian cuisine in Bangalore, I've curated a selection of premium venues known for their authentic handmade pasta and intimate ambiance. Two of these options currently have tables available for tonight."</p>
+</div>
+</div>
+</div>
+<!-- Results Grid (Placeholders) -->
+<div class="flex-1 overflow-y-auto pr-2 pb-lg custom-scrollbar">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-md">
+<!-- Placeholder Card 1 -->
+<div class="relative bg-white/[0.03] border border-white/10 rounded-2xl p-sm backdrop-blur-[20px] h-72 flex flex-col shadow-[0_20px_40px_rgba(15,12,41,0.3)] group hover:bg-white/[0.05] transition-all duration-300">
+<div class="absolute top-0 left-0 w-full h-full border-t border-l border-white/10 rounded-2xl pointer-events-none"></div>
+<div class="w-full h-32 bg-surface-container/50 rounded-xl mb-4 animate-pulse relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+</div>
+<div class="h-6 w-3/4 bg-surface-container/50 rounded mb-2 animate-pulse"></div>
+<div class="h-4 w-1/2 bg-surface-container/50 rounded mb-auto animate-pulse"></div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-white/5">
+<div class="h-4 w-1/3 bg-surface-container/50 rounded animate-pulse"></div>
+<div class="h-8 w-8 bg-surface-container/50 rounded-full animate-pulse"></div>
+</div>
+</div>
+<!-- Placeholder Card 2 -->
+<div class="relative bg-white/[0.03] border border-white/10 rounded-2xl p-sm backdrop-blur-[20px] h-72 flex flex-col shadow-[0_20px_40px_rgba(15,12,41,0.3)] group hover:bg-white/[0.05] transition-all duration-300">
+<div class="absolute top-0 left-0 w-full h-full border-t border-l border-white/10 rounded-2xl pointer-events-none"></div>
+<div class="w-full h-32 bg-surface-container/50 rounded-xl mb-4 animate-pulse relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite] delay-150"></div>
+</div>
+<div class="h-6 w-2/3 bg-surface-container/50 rounded mb-2 animate-pulse"></div>
+<div class="h-4 w-3/4 bg-surface-container/50 rounded mb-auto animate-pulse"></div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-white/5">
+<div class="h-4 w-1/4 bg-surface-container/50 rounded animate-pulse"></div>
+<div class="h-8 w-8 bg-surface-container/50 rounded-full animate-pulse"></div>
+</div>
+</div>
+<!-- Placeholder Card 3 -->
+<div class="relative bg-white/[0.03] border border-white/10 rounded-2xl p-sm backdrop-blur-[20px] h-72 flex flex-col shadow-[0_20px_40px_rgba(15,12,41,0.3)] group hover:bg-white/[0.05] transition-all duration-300">
+<div class="absolute top-0 left-0 w-full h-full border-t border-l border-white/10 rounded-2xl pointer-events-none"></div>
+<div class="w-full h-32 bg-surface-container/50 rounded-xl mb-4 animate-pulse relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite] delay-300"></div>
+</div>
+<div class="h-6 w-4/5 bg-surface-container/50 rounded mb-2 animate-pulse"></div>
+<div class="h-4 w-2/5 bg-surface-container/50 rounded mb-auto animate-pulse"></div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-white/5">
+<div class="h-4 w-1/2 bg-surface-container/50 rounded animate-pulse"></div>
+<div class="h-8 w-8 bg-surface-container/50 rounded-full animate-pulse"></div>
+</div>
+</div>
+<!-- Placeholder Card 4 -->
+<div class="relative bg-white/[0.03] border border-white/10 rounded-2xl p-sm backdrop-blur-[20px] h-72 flex flex-col shadow-[0_20px_40px_rgba(15,12,41,0.3)] group hover:bg-white/[0.05] transition-all duration-300 xl:block hidden">
+<div class="absolute top-0 left-0 w-full h-full border-t border-l border-white/10 rounded-2xl pointer-events-none"></div>
+<div class="w-full h-32 bg-surface-container/50 rounded-xl mb-4 animate-pulse relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_2s_infinite] delay-[450ms]"></div>
+</div>
+<div class="h-6 w-3/4 bg-surface-container/50 rounded mb-2 animate-pulse"></div>
+<div class="h-4 w-1/2 bg-surface-container/50 rounded mb-auto animate-pulse"></div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-white/5">
+<div class="h-4 w-1/3 bg-surface-container/50 rounded animate-pulse"></div>
+<div class="h-8 w-8 bg-surface-container/50 rounded-full animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<style>
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</body></html>
