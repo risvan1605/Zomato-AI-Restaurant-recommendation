@@ -131,21 +131,35 @@ def load_dataset_cached(*, force_reload: bool = False) -> pd.DataFrame:
     )
 
     try:
-        from datasets import load_dataset  # noqa: E402
-        ds = load_dataset(settings.hf_dataset_name, split="train")
-        # ── Prevent OOM: Drop heavy columns before Pandas conversion ────────
-        drop_cols = [c for c in ["reviews_list", "menu_item"] if c in ds.column_names]
-        if drop_cols:
-            ds = ds.remove_columns(drop_cols)
+        import requests  # noqa: E402
+        url = f"https://huggingface.co/datasets/{settings.hf_dataset_name}/resolve/main/zomato.csv"
+        csv_path = cache_dir / "zomato_raw.csv"
+        
+        # Stream the CSV to disk to avoid holding 570MB in RAM
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            with open(csv_path, "wb") as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+                    
+        # ── Prevent OOM: Read only the required columns directly from CSV ────────
+        usecols = [
+            "url", "address", "name", "online_order", "book_table", "rate", "votes",
+            "phone", "location", "rest_type", "dish_liked", "cuisines",
+            "approx_cost(for two people)", "listed_in(type)", "listed_in(city)"
+        ]
+        raw_df = pd.read_csv(csv_path, usecols=usecols)
+        
+        # Cleanup the raw CSV to save disk space
+        csv_path.unlink(missing_ok=True)
+        
     except Exception as exc:  # noqa: BLE001
-        # Distinguish between "no internet" and other failures
         err_name = type(exc).__name__
-        if any(tok in err_name for tok in ("ConnectionError", "ConnectTimeout", "OSError")):
+        if any(tok in err_name for tok in ("ConnectionError", "ConnectTimeout", "OSError", "RequestException")):
             raise DatasetUnavailableError(
                 "Cannot reach Hugging Face and no local cache exists. "
                 "Please connect to the internet and try again."
             ) from exc
-        # For all other errors (auth, dataset not found, etc.) re-raise
         raise DatasetUnavailableError(
             f"Failed to download dataset from Hugging Face: {exc}"
         ) from exc
