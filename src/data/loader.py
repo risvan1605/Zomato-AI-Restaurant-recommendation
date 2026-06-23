@@ -164,7 +164,6 @@ def load_dataset_cached(*, force_reload: bool = False) -> pd.DataFrame:
             f"Failed to download dataset from Hugging Face: {exc}"
         ) from exc
 
-    raw_df = ds.to_pandas()
     logger.info("Downloaded %d rows. Running preprocessor …", len(raw_df))
 
     # Validate the raw schema before preprocessing
