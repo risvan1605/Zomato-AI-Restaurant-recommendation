@@ -169,7 +169,12 @@ def preprocess_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         Cleaned DataFrame with standardized, ready-to-query columns.
     """
-    out = df.copy()
+    # ── Drop oversized columns immediately to prevent OOM ───────────────
+    # reviews_list and menu_item contain massive text blocks and are unused.
+    # Dropping them before copying saves ~300MB of RAM during processing.
+    drop_cols = [c for c in ["reviews_list", "menu_item"] if c in df.columns]
+    out = df.drop(columns=drop_cols) if drop_cols else df.copy()
+    
     total = len(out)
     logger.info("Preprocessing %d rows …", total)
 

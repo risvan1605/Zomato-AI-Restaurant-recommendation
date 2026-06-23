@@ -133,6 +133,10 @@ def load_dataset_cached(*, force_reload: bool = False) -> pd.DataFrame:
     try:
         from datasets import load_dataset  # noqa: E402
         ds = load_dataset(settings.hf_dataset_name, split="train")
+        # ── Prevent OOM: Drop heavy columns before Pandas conversion ────────
+        drop_cols = [c for c in ["reviews_list", "menu_item"] if c in ds.column_names]
+        if drop_cols:
+            ds = ds.remove_columns(drop_cols)
     except Exception as exc:  # noqa: BLE001
         # Distinguish between "no internet" and other failures
         err_name = type(exc).__name__
